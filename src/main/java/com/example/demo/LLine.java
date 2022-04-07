@@ -1,7 +1,7 @@
 /**
  *Extends Rectangle class of javafx to allow for Rect class to interact with Rect class and animate the circle
  *
- * @author  Taaha
+ * @author  Taaha Abdullah
  * @version 1.0
  * @since   2021-04-02
  */
