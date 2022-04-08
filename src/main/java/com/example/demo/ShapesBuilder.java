@@ -9,16 +9,10 @@ package com.example.demo;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ShapesBuilder {
     private int framecount = 60;
     private int fps = 60;
-    private int elements = 0;
-    private int section = 1;
-    private int lineCount = 1;
-    private int x = 0;
-    private int y = 0;
 
 
     /**
@@ -54,13 +48,11 @@ public class ShapesBuilder {
             if(type == 0){
 
                 this.framecount = this.parseInt(line,200);
-                line =br.readLine();
 
             }
 
             else if(type ==1){
                 this.fps = this.parseInt(line,10);
-                line =br.readLine();
 
             }
             else  if(type ==2){
@@ -129,7 +121,7 @@ public class ShapesBuilder {
 
                         int ya = this.parseInt(line,10);
 
-                        circle.addAction('j', start,x,y);
+                        circle.addAction('j', start,xa,ya);
 
                     }
                     else if(line.charAt(0)=='S'|| line.charAt(0)=='s'){
@@ -236,7 +228,7 @@ public class ShapesBuilder {
 
                         int ya = this.parseInt(line,10);
 
-                        rect.addAction('j', start,x,y);
+                        rect.addAction('j', start,xa,ya);
 
                     }
                     else if(line.charAt(0)=='S'|| line.charAt(0)=='s'){
@@ -350,7 +342,7 @@ public class ShapesBuilder {
 
                         int ya = this.parseInt(line,10);
 
-                        lin.addAction('j', start,x,y);
+                        lin.addAction('j', start,xa,ya);
 
                     }
                     else if(line.charAt(0)=='S'|| line.charAt(0)=='s'){
