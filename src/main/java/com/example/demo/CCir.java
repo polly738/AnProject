@@ -17,7 +17,7 @@ public class CCir extends Circle {
 
     /**
      * Constructor of classs
-     * @pararm c (cir) is the cir that you want he shape to get its date from
+     * @pararm c (cir) is the cir that you want the shape to get its date from
      *
      */
     public CCir(Cir c){

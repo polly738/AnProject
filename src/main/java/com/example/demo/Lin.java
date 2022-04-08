@@ -16,6 +16,7 @@ public class Lin implements Poly{
     private int y;
     private int x2;
     private int y2;
+    private int c[];
     private int frame =0;
     private boolean shown;
 
@@ -28,25 +29,20 @@ public class Lin implements Poly{
      * @param xi2 x2  param value (int)
      * @param yi2 y2  param value (int)
      */
-    public Lin(int xi, int yi,int xi2,int yi2, int bt){
-
+    public Lin(int xi, int yi,int xi2,int yi2,int c1,int c2,int c3, int bt){
+        c= new int[3];
         x= xi;
         y = yi;
         y2 = yi2;
         x2= xi2;
         borderThickness = bt;
+        c[0] =c1;
+        c[1] =c2;
+        c[2] =c2;
 
         shown = false;
     }
 
-    public Lin(){
-
-    }
-
-    public void setX(int n){
-
-        x =n;
-    }
 
     /**
      * returns x2 value of line object
@@ -124,7 +120,7 @@ public class Lin implements Poly{
     @Override
     public int getColour(int a){
 
-        return -1;
+        return c[a];
     }
 
     /**
@@ -206,9 +202,11 @@ public class Lin implements Poly{
     @Override
     public void test() {
         System.out.println("Lin");
-        System.out.println("X Y X2 Y2"+ this.getX()+" " + this.getY()+" "+ this.getX2()+" " + this.getY2());
+        System.out.println("X Y X2 Y2 Bt"+ this.getX()+" " + this.getY()+" "+ this.getX2()+" " + this.getY2() +" " + this.getBorderThickness());
         System.out.println("BorderThicknes " + this.getBorderThickness());
         actions.test();
+        System.out.println();
+
 
     }
 }

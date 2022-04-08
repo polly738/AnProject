@@ -27,7 +27,7 @@ public class LLine extends Line {
         this.setEndX(line.getX2());
         this.setEndY(line.getY2());
         this.setStrokeWidth(line.getBorderThickness());
-        this.setStroke(Color.BLACK);
+        this.setStroke(Color.rgb(line.getColour(0),line.getColour(1),line.getColour(2)));
 
 
     }
@@ -39,6 +39,10 @@ public class LLine extends Line {
     public void update(){
 
         line.update();
+        this.setStroke(Color.rgb(line.getColour(0),line.getColour(1),line.getColour(2)));
+        this.setStartX(line.getX());
+        this.setStartY(line.getY());
+
 
         if(line.isShown()){
 

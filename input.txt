@@ -1,6 +1,32 @@
-frames: 1000
+frames: 200
 speed: 10fps
-2
+3
+
+
+
+Rect
+length: 100
+width: 50
+x: 500
+y: 25
+border: 5
+effect
+Show
+start: 15
+Jump
+start: 50
+x: 700
+y: 30
+
+Line
+x: 200
+y: 200
+x2: 100
+y2:100
+b: 10
+effect
+Show
+start: 100
 
 Circle
 r: 10
@@ -9,21 +35,7 @@ y: 50
 color: 255, 0, 0
 effect
 Show
-start: 10
+Start: 10
 effect
 Hide
 start: 120
-
-Rect
-length: 100
-width: 50
-x: 25
-y: 25
-border: 5
-effect
-Show
-start: 15
-Jump
-start: 50
-x: 30
-y: 30

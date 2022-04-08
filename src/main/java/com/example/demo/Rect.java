@@ -218,9 +218,11 @@ public class Rect implements Poly{
         System.out.println("BorderThickness" + this.getBorderThickness());
         System.out.println("R G B "+ this.getColour(0) + " "+ this.getColour(1)+ " "+ this.getColour(2) );
         System.out.println("BorderColour R G B "+ this.getBC(0) + " "+ this.getBC(1)+ " "+ this.getBC(2) );
-        System.out.println();
 
         actions.test();
+
+        System.out.println();
+
 
     }
 }

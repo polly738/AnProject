@@ -7,10 +7,7 @@
 
 package com.example.demo;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -42,396 +39,414 @@ public class ShapesBuilder {
 
     /**
      * Takes a file path and returns shapes class parsed from file
-     * @param path (Sring) the file path you want the parser to read
+     * @throws IOException as this does read a file
+     * @param  path (Sring) the file path you want the parser to read
      * @return Shapes the shapes described in file
      */
     public Shapes buildShapes(String path) throws IOException {
         Shapes shapes = new Shapes();
+
         BufferedReader br = new BufferedReader(new FileReader(path));
         String line;
 
-        while ((line = br.readLine()) != null) {
-            int wordCase = this.getType(line);
-            if(wordCase>=0) {
-                if (wordCase > 1) {
-                    switch (wordCase) {
-                        case 2://circle
-                            line = br.readLine();
-
-                            char shape = line.charAt(0);
-
-                            int r = 0;
-                            int x = 0;
-                            int y = 0;
-                            int bt = 0;
-                            int[] colour = {0, 0, 0};
-
-                            int[] bordercolour = {0, 0, 0};
-
-
-                            while (shape == 'r' || shape == 'x' || shape == 'y' || shape == 'c' || shape == 'b') {
-                                if (shape == 'r') {
-
-                                    r = this.parseInt(line);
-
-                                } else if (shape == 'x') {
-
-                                    x = this.parseInt(line);
-
-
-                                } else if (shape == 'c') {
-
-                                    colour = parseInts(line);
-                                } else if (shape == 'b') {
-                                    bt = this.parseInt(line);
-                                } else if (shape == 'y') {
-
-                                    y = this.parseInt(line);
-                                }
-                                line = br.readLine();
-
-                                shape = line.charAt(0);
-                            }
-
-                            Cir cir = new Cir(r, x, y, colour[0], colour[1], colour[2], bt, bordercolour[0], bordercolour[1], bordercolour[2]);
-
-                            boolean stopper = false;
-
-                            System.out.println(line);
-                            while ((line.charAt(0) == 'e') && !stopper) {
-
-                                if (line.charAt(0) == 'e' || line.charAt(0) == 'E') {
-                                    line = br.readLine();
-                                }
-                                if (line.charAt(0) == 'J' || line.charAt(0) == 'j') {
-
-                                    line = br.readLine();
-                                    int start = this.parseInt(line);
-
-                                    line = br.readLine();
-
-                                    int nx = this.parseInt(line);
-
-                                    line = br.readLine();
-
-                                    int ny = this.parseInt(line);
-
-                                    cir.addAction('j', start, nx, ny);
-
-                                    line = br.readLine();
-
-                                } else if (line.charAt(0) == 'h' || line.charAt(0) == 'H') {
-                                    int start;
-                                    line = br.readLine();
-
-
-                                    start = this.parseInt(line);
-
-
-                                    cir.addAction('h', start);
-                                    line = br.readLine();
-
-                                } else if (line.charAt(0) == 's' || line.charAt(0) == 'S') {
-
-
-                                    line = br.readLine();
-
-
-                                    int start = this.parseInt(line);
-
-                                    cir.addAction('s', start);
-                                    line = br.readLine();
-
-
-                                }
-                                if (line.isEmpty() || line.isBlank()) {
-                                    break;
-                                }
-                            }
-
-
-                            shapes.add(cir);
-
-                            break;
-
-                        case 3://rect
-
-                            line = br.readLine();
-
-
-                            shape = line.charAt(0);
-
-                            r = 0;
-                            x = 0;
-                            y = 0;
-                            bt = 0;
-                            int length = 0;
-                            int width = 0;
-                            int[] color = {0, 0, 0};
-                            int[] bcolor = {0, 0, 0};
-
-
-                            while (shape == 'x' || shape == 'y' || shape == 'c' || shape == 'b' || shape == 'l' || shape == 'w') {
-                                System.out.println("bruh");
-
-                                if (shape == 'x') {
-
-                                    x = this.parseInt(line);
-                                } else if (shape == 'c') {
-
-                                    colour = parseInts(line);
-                                } else if (shape == 'b') {
-
-                                    bt = this.parseInt(line);
-                                } else if (shape == 'y') {
-
-                                    y = this.parseInt(line);
-                                } else if (shape == 'l') {
-
-                                    length = this.parseInt(line);
-                                } else if (shape == 'w') {
-
-                                    width = this.parseInt(line);
-                                }
-                                line = br.readLine();
-
-                                shape = line.charAt(0);
-                            }
-
-                            Rect rect = new Rect(width, length, x, y, color[0], color[1], color[2], bt, bcolor[0], bcolor[1], bcolor[2]);
-
-
-                            while (line.charAt(0) == 'e' || line.charAt(0) == 'E' || line.charAt(0) == 'J') {//add effect rect
-                                if (line.charAt(0) == 'e' || line.charAt(0) == 'E') {
-                                    line = br.readLine();
-                                }
-
-                                if (line.charAt(0) == 'j' || line.charAt(0) == 'J') {
-
-                                    line = br.readLine();
-
-                                    int start = this.parseInt(line);
-
-                                    line = br.readLine();
-
-                                    int nx = this.parseInt(line);
-
-                                    line = br.readLine();
-
-                                    int ny = this.parseInt(line);
-
-                                    rect.addAction('j', start, nx, ny);
-
-                                    line = br.readLine();
-
-                                    if(line == null){
-                                        break;
-                                    }
-                                    //System.out.println(line);
-
-
-                                }
-
-                                 else if (line.charAt(0) == 'h' || line.charAt(0) == 'H') {
-
-                                    int start;
-                                    line = br.readLine();
-
-                                    start = this.parseInt(line);
-
-                                    rect.addAction('h', start);
-                                }
-
-
-                                if (line.charAt(0) == 's' || line.charAt(0) == 'S') {
-
-                                    line = br.readLine();
-
-
-                                    int start = this.parseInt(line);
-
-                                    rect.addAction('s', start);
-                                    line = br.readLine();
-
-                                    System.out.println(line);
-
-                                }
-
-                                if(line == null||line.isEmpty()){
-                                    break;
-                                }
-
-
-
-                            }
-
-                            line = br.readLine();
-
-
-                            shapes.add(rect);
-                            break;
-
-                        case 4://line
-
-                            line = br.readLine();
-
-                            char s = line.charAt(0);
-
-                            int xa = 0;
-                            int ya = 0;
-                            int x2 =0;
-                            int y2 =0;
-                            int bta = 0;
-
-
-
-                            while ( s == 'x' || s == 'y' ||  s == 'b') {
-                               if (s == 'x') {
-
-                                    x = this.parseInt(line);
-
-
-                                } else if (s == 'c') {
-
-                                    colour = parseInts(line);
-                                } else if (s == 'y') {
-
-                                    y = this.parseInt(line);
-                                }
-                                line = br.readLine();
-
-                                shape = line.charAt(0);
-                            }
-
-                            Lin lin = new Lin(xa,ya,x2,y2,bta);
-
-
-                            System.out.println(line);
-                            while ((line.charAt(0) == 'e') ) {
-
-                                if (line.charAt(0) == 'e' || line.charAt(0) == 'E') {
-                                    line = br.readLine();
-                                }
-                                if (line.charAt(0) == 'J' || line.charAt(0) == 'j') {
-
-                                    line = br.readLine();
-                                    int start = this.parseInt(line);
-
-                                    line = br.readLine();
-
-                                    int nx = this.parseInt(line);
-
-                                    line = br.readLine();
-
-                                    int ny = this.parseInt(line);
-
-                                    lin.addAction('j', start, nx, ny);
-
-                                    line = br.readLine();
-
-                                } else if (line.charAt(0) == 'h' || line.charAt(0) == 'H') {
-                                    int start;
-                                    line = br.readLine();
-
-
-                                    start = this.parseInt(line);
-
-
-                                    lin.addAction('h', start);
-                                    line = br.readLine();
-
-                                } else if (line.charAt(0) == 's' || line.charAt(0) == 'S') {
-
-
-                                    line = br.readLine();
-
-
-                                    int start = this.parseInt(line);
-
-                                    lin.addAction('s', start);
-                                    line = br.readLine();
-
-
-                                }
-                                if (line.isEmpty() || line.isBlank()) {
-                                    break;
-                                }
-                            }
-
-
-                            shapes.add(lin);
-
-
-                            break;
-
-
+        while ((line = br.readLine()) != null) {//reads until null
+            int type = this.getType(line);
+            if(type == 0){
+
+                this.framecount = this.parseInt(line,200);
+                line =br.readLine();
+
+            }
+
+            else if(type ==1){
+                this.fps = this.parseInt(line,10);
+                line =br.readLine();
+
+            }
+            else  if(type ==2){
+                int x =0;
+                int y = 0;
+                int bt = 0;
+                int[] colour= {0,0,0};
+                int [] bc = {0,0,0};
+                int r =0;
+
+                while((line = br.readLine())!= null && !line.isEmpty() && !line.equalsIgnoreCase("effect") ){
+                    if(line.charAt(0) == 'x' || line.charAt(0) =='X'){
+                        x = this.parseInt(line,x);
+                    }
+                    if(line.charAt(0) == 'y' || line.charAt(0) =='Y'){
+                        y = this.parseInt(line,y);
+
+                    }
+                    if(line.charAt(0) == 'b' || line.charAt(0) =='B'){
+                        if(this.contains(line,"BorderColour")|| this.contains(line,"bordercolor")){
+                            bc = this.parseInts(line,bc);
+
+                        }
+                        else{
+                            bt = this.parseInt(line,bt);
+
+                        }
+
+                    }
+                    if(line.charAt(0) == 'r' || line.charAt(0) =='R'){
+                        r = this.parseInt(line,r);
+
+
+                    }
+                    if(line.charAt(0) == 'c' || line.charAt(0) =='C'){
+                        colour = this.parseInts(line,colour);
+
+
+                    }
+                    if(line.equalsIgnoreCase("effect")){
+                        break;
                     }
                 }
 
-                else{
-                    if(wordCase == 0){
-                        framecount = parseInt(line);
+                Cir circle = new Cir(r,x,y,colour[0],colour[1],colour[2],bt,bc[0],bc[1],bc[2]);
+
+                while((line = br.readLine())!= null&&!line.isEmpty()&&!line.isBlank()){
+
+                    if(line.charAt(0)=='h'|| line.charAt(0)=='H'){
+
+                        line =br.readLine();
+
+                        int start = this.parseInt(line,10);
+
+                        circle.addAction('h', start);
 
                     }
-                    else if(wordCase==1){
-                        fps = parseInt(line);
+                   else if(line.charAt(0)=='J'|| line.charAt(0)=='j'){
+
+                        line =br.readLine();
+                        int start = this.parseInt(line,10);
+
+                        line = br.readLine();
+                        int xa = this.parseInt(line,10);
+                        line =br.readLine();
+
+                        int ya = this.parseInt(line,10);
+
+                        circle.addAction('j', start,x,y);
 
                     }
-            }
+                    else if(line.charAt(0)=='S'|| line.charAt(0)=='s'){
+
+                        line =br.readLine();
+
+                        int start = this.parseInt(line,10);
+
+                        circle.addAction('s', start);
+
+                    }
+                    else if(line.charAt(0)=='c'|| line.charAt(0)=='C'){
+
+                        int[] cl = {0,0,0};
+                        line =br.readLine();
+                        System.out.println(line);
+                        int start = this.parseInt(line,10);
+                        line =br.readLine();
+
+
+                        cl = this.parseInts(line,cl);
+
+
+                        circle.addAction('c', start,cl[0],cl[1],cl[2]);
+                    }
+
+
+
                 }
+
+                shapes.add(circle);
             }
 
-      return shapes;
+            else if(type ==3){
+                int x =0;
+                int y = 0;
+                int bt = 0;
+                int[] colour= {0,0,0};
+                int [] bc = {0,0,0};
+                int length =0;
+                int width =0;
+
+                while((line = br.readLine())!= null && !line.isEmpty() && !line.equalsIgnoreCase("effect") ){
+                    if(line.charAt(0) == 'x' || line.charAt(0) =='X'){
+                        x = this.parseInt(line,x);
+                    }
+                    if(line.charAt(0) == 'y' || line.charAt(0) =='Y'){
+                        y = this.parseInt(line,y);
+
+                    }
+                    if(line.charAt(0) == 'b' || line.charAt(0) =='B'){
+                        if(this.contains(line,"BorderColour")|| this.contains(line,"bordercolor")){
+                            bc = this.parseInts(line,bc);
+
+                        }
+                        else{
+                            bt = this.parseInt(line,bt);
+
+                        }
+
+                    }
+                    if(line.charAt(0) == 'l' || line.charAt(0) =='L'){
+                        length = this.parseInt(line,length);
+
+
+                    }
+
+                    if(line.charAt(0) == 'w' || line.charAt(0) =='W'){
+                        width = this.parseInt(line,width);
+
+
+                    }
+                    if(line.charAt(0) == 'c' || line.charAt(0) =='C'){
+                        colour = this.parseInts(line,colour);
+
+
+                    }
+                    if(line.equalsIgnoreCase("effect")){
+                        break;
+                    }
+                }
+
+                Rect rect = new Rect(length,width,x,y,colour[0],colour[1],colour[2],bt,bc[0],bc[1],bc[2]);
+
+                while((line = br.readLine())!= null&&!line.isEmpty()&&!line.isBlank()){
+
+                    if(line.charAt(0)=='h'|| line.charAt(0)=='H'){
+
+                        line =br.readLine();
+
+                        int start = this.parseInt(line,10);
+
+                        rect.addAction('h', start);
+
+                    }
+                    else if(line.charAt(0)=='J'|| line.charAt(0)=='j'){
+
+                        line =br.readLine();
+                        int start = this.parseInt(line,10);
+
+                        line = br.readLine();
+                        int xa = this.parseInt(line,10);
+                        line =br.readLine();
+
+                        int ya = this.parseInt(line,10);
+
+                        rect.addAction('j', start,x,y);
+
+                    }
+                    else if(line.charAt(0)=='S'|| line.charAt(0)=='s'){
+
+                        line =br.readLine();
+
+                        int start = this.parseInt(line,10);
+
+                        rect.addAction('s', start);
+
+                    }
+                    else if(line.charAt(0)=='c'|| line.charAt(0)=='C'){
+
+                        int[] cl = {0,0,0};
+                        line =br.readLine();
+                        System.out.println(line);
+                        int start = this.parseInt(line,10);
+                        line =br.readLine();
+
+
+                        cl = this.parseInts(line,cl);
+
+
+                        rect.addAction('c', start,cl[0],cl[1],cl[2]);
+                    }
+
+
+
+                }
+
+                shapes.add(rect);
+
+            }
+
+            else if(type ==4){
+                int x =0;
+                int y = 0;
+                int bt = 0;
+                int x2 =0;
+                int y2=0;
+                int[] colour= {0,0,0};
+
+
+                while((line = br.readLine())!= null && !line.isEmpty() && !line.equalsIgnoreCase("effect") ){
+                    if(line.charAt(0) == 'x' || line.charAt(0) =='X'){
+                        if(this.contains(line,"x2")){
+
+                            int[] l={0,0};
+                            int[] a = this.parseInts(line,l);
+
+                            x2 = a[1];
+
+                        }
+                        else {
+                            x = this.parseInt(line, x);
+
+                        }
+                    }
+                    if(line.charAt(0) == 'y' || line.charAt(0) =='Y'){
+
+
+                        if(this.contains(line,"y2")){
+
+
+                            int[] l={0,0};
+                            int[] a = this.parseInts(line,l);
+
+                            y2 = a[1];
+
+                        }
+
+                        else {
+                            y = this.parseInt(line, y);
+                        }
+                    }
+                    if(line.charAt(0) == 'b' || line.charAt(0) =='B'){
+
+                        bt = this.parseInt(line,bt);
+                    }
+
+                    if(line.charAt(0) == 'c' || line.charAt(0) =='C'){
+
+                        colour = this.parseInts(line,colour);
+                    }
+                    if(line.equalsIgnoreCase("effect")){
+                        break;
+                    }
+                }
+
+                Lin lin = new Lin(x,y,x2,y2,colour[0],colour[1],colour[2],bt);
+
+                while((line = br.readLine())!= null&&!line.isEmpty()&&!line.isBlank()){
+
+                    if(line.charAt(0)=='h'|| line.charAt(0)=='H'){
+
+                        line =br.readLine();
+
+                        int start = this.parseInt(line,10);
+
+                        lin.addAction('h', start);
+
+                    }
+                    else if(line.charAt(0)=='J'|| line.charAt(0)=='j'){
+
+                        line =br.readLine();
+                        int start = this.parseInt(line,10);
+
+                        line = br.readLine();
+                        int xa = this.parseInt(line,10);
+                        line =br.readLine();
+
+                        int ya = this.parseInt(line,10);
+
+                        lin.addAction('j', start,x,y);
+
+                    }
+                    else if(line.charAt(0)=='S'|| line.charAt(0)=='s'){
+
+                        line =br.readLine();
+
+                        int start = this.parseInt(line,10);
+
+                        lin.addAction('s', start);
+
+                    }
+                    else if(line.charAt(0)=='c'|| line.charAt(0)=='C'){
+
+                        int[] cl = {0,0,0};
+                        line =br.readLine();
+                        System.out.println(line);
+                        int start = this.parseInt(line,10);
+                        line =br.readLine();
+
+
+                        cl = this.parseInts(line,cl);
+
+
+                        lin.addAction('c', start,cl[0],cl[1],cl[2]);
+                    }
+
+
+
+                }
+
+                shapes.add(lin);
+
+
+            }
+
+
+
+
+        }
+        return shapes;
     }
+
     /**
-     * Takes a string and returns the int in the string
-     * @param s the string you want to parse from
-     * @return val (int) the int value you parsered from string
+     * Takes a string and parse an int it it is in the string returns a backup if not
+     * @param s string you want parsed
+     * @param backup int you want returned if there is no integer to parse
+     * @return int value, the value from the string if it exist backup if it does not
      */
-    public int parseInt(String s){
+    public int parseInt(String s, int backup){
+        if(!this.containsInt(s)){
+
+            return backup;
+        }
         s = s.replaceAll("[^\\d]", "");
         int val = Integer.parseInt(s);
 
         return val;
     }
+
+    /**
+     * Checks if a string has a numerial in it
+     * @param s
+     * @return boolean value true if it does contain a numerial false if not
+     */
+    public boolean containsInt(String s){
+
+        for(int i = 0;i< s.length(); i++) {
+
+            if (Character.isDigit(s.charAt(i))) {
+
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+
     /**
      * Takes a string and a substring and checks if the substring is in the main string
      * @param substring the string you are looking for
      * @param main the string you are looking from
      * @return boolean value true if substring is main, false if not
      */
-    public  boolean contains(String main, String Substring) {
-        boolean flag = false;
-        if (main == null && main.trim().equals("")) {
-            return flag;
+    public  boolean contains(String main, String substring) {
+        if(main == null || substring == null) return false;
+
+        final int length = substring.length();
+        if (length == 0)
+            return true;
+
+        for (int i = main.length() - length; i >= 0; i--) {
+            if (main.regionMatches(true, i, substring, 0, length))
+                return true;
         }
-        if (Substring == null) {
-            return flag;
-        }
-
-        char fullstring[] = main.toCharArray();
-        char sub[] = Substring.toCharArray();
-        int counter = 0;
-        if (sub.length == 0) {
-            flag = true;
-            return flag;
-        }
-
-        for (int i = 0; i < fullstring.length; i++) {
-
-            if (fullstring[i] == sub[counter]) {
-                counter++;
-            } else {
-                counter = 0;
-            }
-
-            if (counter == sub.length) {
-                flag = true;
-                return flag;
-            }
-
-        }
-        return flag;
+        return false;
     }
 
     /**
@@ -439,7 +454,11 @@ public class ShapesBuilder {
      * @param s the string you want to parse from
      * @return val[] (int) the ints values you parsered from string
      */
-    public int[] parseInts(String s){
+    public int[] parseInts(String s,int[] backup){
+
+        if(!this.containsInt(s)){
+            return backup;
+        }
 
         String[] split = s.split("[^\\d]+");
         int number;
@@ -456,12 +475,21 @@ public class ShapesBuilder {
 
         Integer[] numberArray = numberList.toArray(new Integer[numberList.size()]);
 
+        int[] ret = arrayint(numberArray);
 
-        return arrayint(numberArray);
+        if(ret.length==backup.length){
+            return ret;
+
+        }
+
+        else{
+            return backup;
+        }
     }
+
     /**
      * takes and array of Integer and return array of ints
-     * @param n[] Integer array you want parser
+     * @param  n Integer array you want parser
      * @return n[] int array you want
      */
     public int[] arrayint(Integer[] n){
@@ -476,17 +504,17 @@ public class ShapesBuilder {
 
         return ret;
     }
+
     /**
      * Gets a string and see if any values are in it returns a specail number if value is in it that the program is looking for
      *
      */
     private int getType(String s){
-        String[] types = {"frames","speed","Circle","Rect","Line"};
+        String[] types = {"frames","speed","Circle","Rect","Line","effect"};
 
         for(int i = 0; i < types.length; i++){
 
             if(this.contains(s,types[i])){
-                System.out.println(types[i]);
 
                 return i;
             }
@@ -494,4 +522,5 @@ public class ShapesBuilder {
         }
         return -1;
     }
+
 }
