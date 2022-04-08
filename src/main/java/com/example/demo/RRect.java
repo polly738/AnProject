@@ -1,7 +1,7 @@
 /**
  *Extends Line class of javafx to allow for Line class to interact with lin class and animate the line
  *
- * @author  Gabe Bigas
+ * @author  Gabriel Bigas
  * @version 1.0
  * @since   2021-04-02
  */
